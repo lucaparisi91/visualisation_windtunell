@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   sodipodi:docname="benchio.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="true"
+     inkscape:zoom="1.6819304"
+     inkscape:cx="399.54091"
+     inkscape:cy="140.61224"
+     inkscape:window-width="1512"
+     inkscape:window-height="831"
+     inkscape:window-x="0"
+     inkscape:window-y="38"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <sodipodi:guide
+       position="3.460805,296.8427"
+       orientation="1,0"
+       id="guide439"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <rect
+       x="20.214867"
+       y="9.5128787"
+       width="224.74176"
+       height="55.888162"
+       id="rect275" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;stroke-width:0.264583"
+       id="rect111"
+       width="209.53601"
+       height="133.71292"
+       x="0.31461859"
+       y="5.4207174e-08" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text273"
+       style="fill:#ffffff;white-space:pre;shape-inside:url(#rect275)" />
+    <text
+       xml:space="preserve"
+       style="font-size:3.175px;fill:#ffffff;stroke-width:0.264583"
+       x="9.4385586"
+       y="7.5508471"
+       id="text281"><tspan
+         sodipodi:role="line"
+         id="tspan279"
+         style="stroke-width:0.264583"
+         x="9.4385586"
+         y="7.5508471" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:7.05556px;fill:#ffffff;stroke-width:0.264583"
+       x="4.7192798"
+       y="14.000529"
+       id="text285"><tspan
+         sodipodi:role="line"
+         id="tspan283"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:#000000;stroke-width:0.264583"
+         x="4.7192798"
+         y="14.000529">I/O monitoring</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;fill:#ffffff;stroke-width:0.264583"
+       x="5.8985815"
+       y="29.30057"
+       id="text285-2"><tspan
+         sodipodi:role="line"
+         id="tspan283-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:#000000;stroke-width:0.264583"
+         x="5.8985815"
+         y="29.30057">From</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;fill:#ffffff;stroke-width:0.264583"
+       x="38.260677"
+       y="29.337198"
+       id="text285-2-1"><tspan
+         sodipodi:role="line"
+         id="tspan283-0-5"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:#000000;stroke-width:0.264583"
+         x="38.260677"
+         y="29.337198">to</tspan></text>
+    <rect
+       style="fill:#cccccc;stroke-width:0.264583"
+       id="rect441"
+       width="140.47723"
+       height="66.69915"
+       x="62.923721"
+       y="17.618643" />
+    <rect
+       style="fill:#cccccc;stroke-width:0.157113"
+       id="rect495"
+       width="16.20286"
+       height="2.9888768"
+       x="18.405191"
+       y="26.742584" />
+    <rect
+       style="fill:#cccccc;stroke-width:0.15317"
+       id="rect495-1"
+       width="14.629766"
+       height="3.1461861"
+       x="44.282574"
+       y="26.585276" />
+  </g>
+</svg>
