@@ -1,4 +1,12 @@
 // set the dimensions and margins of the graph
+
+import getWingShape from "./createWingShape.js";
+
+
+const data= getWingShape()
+
+
+
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
 width = 460 - margin.left - margin.right,
 height = 400 - margin.top - margin.bottom;
@@ -12,20 +20,14 @@ var svg = d3.select("#my_dataviz")
 .attr("transform",
       "translate(" + margin.left + "," + margin.top + ")");
 
-//Read the data
-d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv",
 
-// When reading the csv, I must format variables:
-function(d){
-return { date : d3.timeParse("%Y-%m-%d")(d.date), value : d.value }
-},
 
 // Now I can use this dataset:
-function(data) {
+const drawWing = function(data, svg ) {
 
 // Add X axis --> it is a date format
-var x = d3.scaleTime()
-  .domain(d3.extent(data, function(d) { return d.date; }))
+var x = d3.scaleLinear()
+  .domain(d3.extent(data, function(d) { return d[0]; }))
   .range([ 0, width ]);
 svg.append("g")
   .attr("transform", "translate(0," + height + ")")
@@ -33,7 +35,7 @@ svg.append("g")
 
 // Add Y axis
 var y = d3.scaleLinear()
-  .domain([0, d3.max(data, function(d) { return +d.value; })])
+  .domain(d3.extent(data, function(d) { return d[1]; }))
   .range([ height, 0 ]);
 svg.append("g")
   .call(d3.axisLeft(y));
@@ -45,8 +47,12 @@ svg.append("path")
   .attr("stroke", "steelblue")
   .attr("stroke-width", 1.5)
   .attr("d", d3.line()
-    .x(function(d) { return x(d.date) })
-    .y(function(d) { return y(d.value) })
+    .x(function(d) { return x(d[0]) })
+    .y(function(d) { return y(d[1]) })
     )
 
-})
+}
+
+console.log(data)
+
+drawWing(data,svg)
