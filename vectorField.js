@@ -1,4 +1,5 @@
 
+import { windtunnelField, field2D } from "./getField.js"
 
 const renderParticles = function()
 {
@@ -11,6 +12,7 @@ const renderParticles = function()
     dot_path.fillColor = 'green';
     dot_path.opacity = 0.2
     const nParticles = 1000
+
 
     const velocities= Array.from(Array(nParticles).keys()).map ((i) => [ Math.random()*0.01 , Math.random()*0.01 ] )
 
@@ -47,18 +49,42 @@ const renderParticles = function()
     
 }
 
+
+const generateRandomPositions=function(nParticles,extent)
+{
+    const initialPositions = Array.from(Array(nParticles).keys()).map ((i) => [ Math.random() , Math.random() ]   )
+
+    const xScale = d3.scaleLinear().domain([0,1]).range(extent[0])
+    const yScale = d3.scaleLinear().domain([0,1]).range(extent[1])
+
+    return initialPositions.map((x) => [ xScale(x[0]) , xScale(x[1]) ] )
+
+
+}
+
 window.onload = function() {
     // Get a reference to the canvas object
     var canvas = document.getElementById('vectorFieldCanvas');
     // Create an empty project and a view for the canvas:
     paper.setup(canvas);
+    const nParticles = 100
+    const extent = [ [-2,2],[-2,2] ]
+    const initialPositions=generateRandomPositions(nParticles,extent)
+
 
     renderParticles()
 
-
 }
 
+fetch("/output.dat").then( (res) =>  { return res.blob() }   ).then( (blob) =>{ return blob.arrayBuffer()  }).then( (data) => { 
+    
+    const field = new windtunnelField(data)
 
+    const scale=d3.scaleLinear().domain([field.u.minx, field.u.maxx]).range([0,200])
+
+
+
+})
 
 
 
