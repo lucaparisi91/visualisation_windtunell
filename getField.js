@@ -1,5 +1,3 @@
-"use strict"
-
 const reshape2D= function(arr, size)
 {
     const reshaped_arr=[]
@@ -62,8 +60,7 @@ class field2D
 
 }
 
-
-class windtunnelField
+class windTunnelField
 {
 
     constructor( buffer )
@@ -112,4 +109,4 @@ class windtunnelField
 
 //  });
 
-export { windtunnelField, field2D }
+export { windTunnelField, field2D }
