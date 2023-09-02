@@ -1,3 +1,4 @@
+import * as d3 from "d3";
 
 
 class Figure
@@ -9,7 +10,7 @@ class Figure
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     // append the svg object to the body of the page
-    this.svg = d3.select("#my_dataviz")
+    this.svg = d3.select("#container-chart")
     .append("svg")
     .attr("width", this.width + this.margin.left + this.margin.right)
     .attr("height", this.height + this.margin.top + this.margin.bottom)
@@ -37,7 +38,7 @@ class perfChart
     const svg = this.fig.svg
     const width = this.fig.width
     const height = this.fig.height
-
+    
     // Add X axis --> it is a date format
     this.xScale = d3.scaleTime()
       .domain(d3.extent(this.data, function(d) { return parseTime(d.datetime); }))
@@ -105,15 +106,7 @@ const parseTime=function( time )
 
 }
 
-d3.csv("benchio.csv", data =>
-{
-
-  const fig = new Figure()
-  const chart = new perfChart(data,fig)
-
-  //draw(data,fig)
-
-  chart.xlim("2023-07-16 09:52:00","2023-07-30 09:52:00")
 
 
-} );
+
+export { parseTime, perfChart, Figure }
