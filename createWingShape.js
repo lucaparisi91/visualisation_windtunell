@@ -1,7 +1,6 @@
 
 import * as d3 from "d3"
 
-
 export const linspace = function( a,b , n = 10 )
 {
     let x = d3.range( n )
