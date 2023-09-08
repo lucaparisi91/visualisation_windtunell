@@ -10,12 +10,18 @@ import * as d3 from "d3";
 
 const domNode= document.getElementById("chart_control")
 const root = createRoot(domNode)
-root.render( <App/>)
 
-const data = await d3.csv("benchio.csv")
+const data = await d3.csv("benchio_unstriped_hdf5.csv")
 
 
 const fig = new Figure()
 const chart = new perfChart(data,fig)
 
-  //chart.xlim("2023-07-16 09:52:00","2023-07-30 09:52:00")
+root.render( <App onDateChange= { (time1,time2) => { 
+    chart.xlim(time1,time2)
+     } } />)
+
+
+const dataGrouped= d3.group( data, (d) => d.name )
+
+dataGrouped.forEach( (value,key) => {console.log(value)} )

@@ -6,7 +6,7 @@ class Figure
   constructor()
   {
     this.margin = {top: 10, right: 30, bottom: 30, left: 60},
-    this.width = 460 - this.margin.left - this.margin.right,
+    this.width =1000 - this.margin.left - this.margin.right,
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     // append the svg object to the body of the page

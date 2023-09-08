@@ -2,11 +2,10 @@ import React from "react";
 import DatePickerValue from "./datePicker";
 
 
-const App = () => {
+const App = (props) => {
    return (
     <>
-    <div>Hello, World!</div>
-   <DatePickerValue/>
+   <DatePickerValue {...props} />
     </>
    );
 
