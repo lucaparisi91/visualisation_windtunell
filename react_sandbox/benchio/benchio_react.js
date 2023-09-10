@@ -8,8 +8,11 @@ import * as d3 from "d3";
 function Figure( props    )
 {
     const margin = {top: 10, right: 30, bottom: 30, left: 60}
-    const box_width = props.width - margin.left - margin.right
-    const box_height = props.height - margin.top - margin.bottom;
+    const padding = { top : 10, right: 10, bottom: 20,left : 10 }
+
+    const display_width = props.width - margin.left - margin.right - padding.left - padding.right
+    const display_height = props.height - margin.top - margin.bottom - padding.top - padding.bottom;
+
 
     const n = 100
 
@@ -26,26 +29,28 @@ function Figure( props    )
     //.domain([0,1])
     //.range([ 0,box_width ]);
 
-    const xScale=d3.scaleTime().domain(d3.extent(times)).range([0,box_width]).nice()
+    const xScale=d3.scaleTime().domain(d3.extent(times)).range([0,display_width]).nice()
 
 
-    const yScale=d3.scaleLinear().domain([0,1]).range([box_height,0])
+    const yScale=d3.scaleLinear().domain([0,1]).range([display_height,0])
 
 
 
     return ( 
     <svg width={ props.width} height={props.height}  >
-        <g transform={`translate(${margin.left},${props.height - margin.bottom})`}   >
-        <HAxis width={box_width} scale={ xScale}  />
+        <g transform={`translate(${margin.left + padding.left},${props.height - margin.bottom})`}   >
+        <HAxis width={display_width} scale={ xScale}  />
         </g>
         
         <clipPath id="clip-display">
-            <rect width={box_width} height={box_height} />
+            <rect width={props.width - margin.left - margin.right} height={props.height - margin.top -margin.bottom} />
         </clipPath>
 
         <g transform={`translate(${margin.left},${margin.top})`} clipPath={"url(#clip-display)"} >
-        <Lines data={data} xScale={xScale} yScale={yScale} />
-        <Scatter data={data} xScale={xScale} yScale={yScale} /> 
+            <g transform={`translate(${padding.left},${padding.right})`} >
+                <Lines data={data} xScale={xScale} yScale={yScale} />
+                <Scatter data={data} xScale={xScale} yScale={yScale} /> 
+        </g>
         </g> 
  
         
