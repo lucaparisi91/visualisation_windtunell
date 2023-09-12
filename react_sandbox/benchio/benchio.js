@@ -22,52 +22,205 @@ class Figure
 };
 
 
+
+export { Figure }
+
+
 class perfChart
 {
 
-  constructor(data,fig)
+  getElementY(d) { return  parseFloat(d.perf_value) }
+  getElementX(d) { return parseTime(d.datetime) }
+
+
+  getElement(d,axis) {
+    
+    if (axis == 0)
+    {
+      return this.getElementX(d)
+    }
+    else if (axis==1)
+    {
+      return this.getElementY(d)
+    }
+
+
+  }
+
+
+  constructor(data,fig )
   {
     this.fig=fig
     this.data=data
+    this.nTicks=5
+    this.extent=[null,null]
+    
+    this.scale=[null,null]
+    
     this.draw()
+
+        
+
+    
+
+  }
+  
+
+  updateXScale()
+  {
+    const width = this.fig.width
+
+    this.scale[0] = d3.scaleTime()
+      .domain(this.extent[0])
+      .range([ 0, width ]);
+
+  }
+
+
+  setAutoExtent( axis)
+  {
+
+    this.extent[axis]=null
+
+
+    for ( const [key,data] of this.data)
+    {
+
+      const extent=d3.extent(data, (d) => this.getElement(d,axis) )
+
+
+       if (this.extent[axis] == null)
+      {
+        this.extent[axis]=extent
+      }
+      else 
+      {
+        this.extent[axis][0]=Math.min( extent[0],this.extent[axis][0])
+        this.extent[axis][1]=Math.max(extent[1],this.extent[axis][1])
+        
+
+      }
+
+    }
+
+    
+      
+    }
+
+    updateYScale()
+    {
+      const height = this.fig.height
+
+      this.scale[1] = d3.scaleLinear()
+      .domain(this.extent[1])
+      .range([ height, 0 ]);
+
+    }
+
+
+
+    updateScale(axis)
+    {
+      if (axis==0) 
+      {
+        this.updateXScale()
+      }
+      else if (axis==1)
+      {
+        this.updateYScale()
+      }
+    }
+  
+
+  
+  append_track( key, data)
+  {
+    const svg=this.fig.svg
+
+    const xScale=this.scale[0]
+    const yScale=this.scale[1]
+
+
+
+    svg.append("g").attr("class",`track ${key}`).append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("class","perf-path")
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", 1.5)
+    .attr("d", d3.line()
+      .x(  (d)=>{ return xScale(parseTime(d.datetime)) })
+      .y( (d) => { return yScale( parseFloat(d.perf_value)) })
+      )
+
+  }
+
+  drawXAxis()
+  {
+    const width = this.fig.width
+    const height = this.fig.height
+
+
+    this.fig.svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .attr("class","xaxis")
+      .call(d3.axisBottom(this.scale[0]).ticks(this.nTicks));
+
+  }
+
+  drawYAxis()
+  {
+    this.fig.svg.append("g")
+      .call(d3.axisLeft(this.scale[1]));
+    
   }
 
 
   draw( )
   {
     const svg = this.fig.svg
-    const width = this.fig.width
     const height = this.fig.height
-    
-    // Add X axis --> it is a date format
-    this.xScale = d3.scaleTime()
-      .domain(d3.extent(this.data, function(d) { return parseTime(d.datetime); }))
-      .range([ 0, width ]);
-    
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .attr("class","xaxis")
-      .call(d3.axisBottom(this.xScale).ticks(5));
 
-    // Add Y axis
-    this.yScale = d3.scaleLinear()
-      .domain(d3.extent(this.data, function(d) { return d.perf_value; }))
-      .range([ height, 0 ]);
-    svg.append("g")
-      .call(d3.axisLeft(this.yScale));
+
+    //this.setAutoXExtent()
+    //this.updateXScale()
+
+
+    //this.drawXAxis()
+    this.setAutoExtent(0)
+    this.setAutoExtent( 1)
+
+    this.updateScale(0)
+    this.updateScale(1)
+
+    this.drawXAxis()
+    this.drawYAxis()
+
+
+    for ( const [key,data] of this.data)
+    {
+      
+      this.append_track( key,data)
+
+    }
+    //this.updateYScale()
+
+
+
+    //this.drawYAxis()
     
+
+    
+    // Add Y axis
+    
+    
+    //
+
     //console.log(y.domain())
     // Add the line
-    svg.append("path")
-      .datum(this.data)
-      .attr("fill", "none")
-      .attr("class","perf-path")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(  (d)=>{ return this.xScale(parseTime(d.datetime)) })
-        .y( (d) => { return this.yScale(d.perf_value) })
-        )
+
+
+
   }
 
   xlim( time1, time2)

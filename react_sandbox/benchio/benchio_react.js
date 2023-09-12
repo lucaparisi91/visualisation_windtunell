@@ -1,7 +1,16 @@
 import React from "react";
 import * as d3 from "d3";
 
+import {useMemo, useState} from 'react';
 
+const n = 100
+
+const times = [...Array(n).keys()].map( i => 
+   new Date(Date.now() - i * 60*60*1000)
+).sort( (a,b) => a.getTime() - b.getTime() )
+console.log(times)
+
+const data=times.map( t => [ t ,     Math.random()] )
 
 
 
@@ -14,14 +23,8 @@ function Figure( props    )
     const display_height = props.height - margin.top - margin.bottom - padding.top - padding.bottom;
 
 
-    const n = 100
+  
 
-    const times = [...Array(n).keys()].map( i => 
-       new Date(Date.now() - i * 60*60*1000)
-    ).sort( (a,b) => a.getTime() - b.getTime() )
-    console.log(times)
-
-    const data=times.map( t => [ t ,     Math.random()] )
 
 
     
@@ -29,14 +32,17 @@ function Figure( props    )
     //.domain([0,1])
     //.range([ 0,box_width ]);
 
-    const xScale=d3.scaleTime().domain(d3.extent(times)).range([0,display_width]).nice()
+    const [xExtent,setXExtent] = useState( d3.extent(times) )
+
+    const xScale = useMemo( () => d3.scaleTime().domain(xExtent).range([0,display_width]).nice()  ,[xExtent]        )
+
+
 
 
     const yScale=d3.scaleLinear().domain([0,1]).range([display_height,0])
+    
 
-
-
-    return ( 
+    const figure = 
     <svg width={ props.width} height={props.height}  >
         <g transform={`translate(${margin.left + padding.left},${props.height - margin.bottom})`}   >
         <HAxis width={display_width} scale={ xScale}  />
@@ -48,6 +54,7 @@ function Figure( props    )
 
         <g transform={`translate(${margin.left},${margin.top})`} clipPath={"url(#clip-display)"} >
             <g transform={`translate(${padding.left},${padding.right})`} >
+
                 <Lines data={data} xScale={xScale} yScale={yScale} />
                 <Scatter data={data} xScale={xScale} yScale={yScale} /> 
         </g>
@@ -55,7 +62,22 @@ function Figure( props    )
  
         
     </svg>
-    )
+
+    let t1 = new Date("2023-09-09")
+    let t2 = new Date("2023-09-11")
+
+    //const dataExtent = d3.extent(times)
+    //t1=dataExtent[0]
+    //t2=dataExtent[1]
+
+
+    return (<>
+        <div>
+        {figure}
+        </div>
+        
+        <button onClick={ (e)=>{ setXExtent( [t1,t2])  } } > Resize </button>
+    </> )
 
 }
 

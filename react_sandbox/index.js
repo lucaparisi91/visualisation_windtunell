@@ -18,7 +18,7 @@ const dataGrouped= d3.group( data, (d) => d.name )
 //const fig = new Figure()
 //const chart = new perfChart( dataGrouped ,fig)
 
-root.render( <Figure width={800} height={300}  >
+root.render( <Figure width={800} height={400}  >
     
 </Figure> )
 
