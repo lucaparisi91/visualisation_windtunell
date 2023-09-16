@@ -7,19 +7,12 @@ import { HAxis } from "./HAxis";
 import { VAxis } from "./VAxis";
 
 
-const n = 100
-
-const times = [...Array(n).keys()].map( i => 
-   new Date(Date.now() - i * 60*60*1000)
-).sort( (a,b) => a.getTime() - b.getTime() )
-//console.log(times)
-
-const data=times.map( t => [ t ,     Math.random()] )
-
-
 
 function Figure( props    )
 {
+
+    const data = props.data
+
     const margin = {top: 10, right: 30, bottom: 30, left: 30}
     const padding = { top : 10, right: 10, bottom: 20,left : 30 }
 
@@ -32,8 +25,9 @@ function Figure( props    )
     //.range([ 0,box_width ]);
 
 
-    const originalXExtent = useMemo( ()=> d3.extent(times) , []  )
-    const originalYExtent = [0,1]
+    const originalXExtent = useMemo( ()=> d3.extent(data, (d)=> d[0]) , []  )
+    const originalYExtent = useMemo( ()=> d3.extent(data, (d)=> d[1]) , []  )
+
 
     const [xExtent,setXExtent] = useState( originalXExtent )
     const [yExtent,setYExtent] = useState( originalYExtent )
@@ -49,7 +43,7 @@ function Figure( props    )
 
     const yScale= useMemo( () => d3.scaleLinear().domain(yExtent).range([display_height,0]).nice() , [yExtent] )
 
-
+    
 
     
     
@@ -111,12 +105,12 @@ function Figure( props    )
 
 function Scatter(props)
 {
-    const radius=10
+    const radius=2
     const strokeColor="gray"
     const fillColor="white"
 
 
-    const markers = props.data.map( (d)=> <circle key={`${d[0]}-${d[1]}`} cx={props.xScale(d[0])} cy={props.yScale(d[1])} r={radius} strokeWidth={5} stroke={strokeColor} fill={fillColor} ></circle>  )
+    const markers = props.data.map( (d)=> <circle key={`${d[0]}-${d[1]}`} cx={props.xScale(d[0])} cy={props.yScale(d[1])} r={radius} strokeWidth={1} stroke={strokeColor} fill={fillColor} ></circle>  )
 
 
     return < g className="scatter" > {markers}</g>
@@ -125,7 +119,7 @@ function Scatter(props)
 function Lines(props)
 {
     const colorStroke="gray"
-    const strokeWidth=5
+    const strokeWidth=1
 
     const lc=d3.line().x( d => props.xScale(d[0])   ).y( d=> props.yScale(d[1]) )
     return <path d={lc(props.data)} stroke={colorStroke} strokeWidth={strokeWidth} fill="none"/>

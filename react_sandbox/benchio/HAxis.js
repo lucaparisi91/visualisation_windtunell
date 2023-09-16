@@ -36,6 +36,7 @@ function HAxis ( props )
         <g className = "ticks">
             {markers}
             {verticalThick }
+            <g transform={`translate(${width},0)`}> {verticalThick}</g>
         </g>
     </g>)
 
