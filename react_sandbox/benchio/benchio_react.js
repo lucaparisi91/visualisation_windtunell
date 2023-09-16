@@ -2,6 +2,10 @@ import React from "react";
 import * as d3 from "d3";
 
 import {useMemo, useState} from 'react';
+import { BoxZoom } from "./BoxZoom";
+import { HAxis } from "./HAxis";
+import { VAxis } from "./VAxis";
+
 
 const n = 100
 
@@ -46,69 +50,8 @@ function Figure( props    )
     const yScale= useMemo( () => d3.scaleLinear().domain(yExtent).range([display_height,0]).nice() , [yExtent] )
 
 
+
     
-    
-    const [zoomBox,setZoomBox ] = useState( { left: 0, top:0, width: 0 , height: display_height, display : false} )
-
-
-
-    const handleZoomMouseDown= (e)=>{
-       
-        const left= e.clientX - e.target.getBoundingClientRect().left
-        //const top = e.clientY - e.target.getBoundingClientRect().top
-        
-        //console.log( yScale.invert(top))
-        setZoomBox( {...zoomBox,left: left,display:true,width:0, top: 0 } )
-
-    }
-
-    const handleZoomMouseMove = (e) =>{
-
-        if (zoomBox.display)
-        {
-            const x = e.clientX - e.target.getBoundingClientRect().left
-            //const y = e.clientY - e.target.getBoundingClientRect().top
-
-
-            const width = x - zoomBox.left
-            //const height = y - zoomBox.top
-
-
-           
-            setZoomBox( {...zoomBox, width: width }  )
-
-            
-        }
-        
-    }
-
-    const handleZoomMouseUp = (e) =>{
-
-        if (zoomBox.display)
-        {
-            const minWindowSize = 10 
-            if ( Math.abs(zoomBox.width) >= minWindowSize )
-            {
-                const left = d3.min([zoomBox.left,zoomBox.left + zoomBox.width])
-                const right = left + Math.abs(zoomBox.width)
-                const newExtent = [ xScale.invert( left ) , xScale.invert( right) ]
-                //console.log(newExtent)
-                setXExtent(newExtent)
-            }
-            
-            setZoomBox( {...zoomBox, width: 0, display: false }  )
-
-        }
-        
-    }
-
-    const handleZoomMouseOut = (e) => {
-        if (zoomBox.display)
-        {   
-            setZoomBox( {...zoomBox, display: false , width: 0 , height:0} )
-        }
-
-    }
     
 
 
@@ -132,8 +75,7 @@ function Figure( props    )
                 <Lines data={data} xScale={xScale} yScale={yScale} />
                 <Scatter data={data} xScale={xScale} yScale={yScale} /> 
 
-                <rect transform={`translate( ${ d3.min([zoomBox.left,zoomBox.left + zoomBox.width])},${ zoomBox.top })`} width={Math.abs(zoomBox.width) } height={Math.abs(zoomBox.height)} opacity={0.2}  />
-                <rect width={display_width} height={display_height} onMouseDown={ handleZoomMouseDown } onMouseMove={handleZoomMouseMove} onMouseUp={handleZoomMouseUp} onMouseOut={ handleZoomMouseOut } visibility={"hidden"}  />
+              <BoxZoom xScale={xScale} setXExtent={setXExtent} width={display_width} height={display_height}  />
                 
 
         </g>
@@ -164,83 +106,6 @@ function Figure( props    )
 }
 
 
-function HAxis ( props )
-{
-    const width = props.width
-    const scale= props.scale
-    const tickHeight= 10
-    const color="black"
-    const nTicks=6
-
-
-            const parseTime = (d) => d.toLocaleString('default', { month: 'short', day: 'numeric',hour:'numeric',hour12:true })
-
-            const verticalThick = <path d={`M0 0 v${tickHeight}`} stroke={`black`}    />
-            const markers= scale.ticks(nTicks).map( 
-        xth => <g className="marker" key={xth} transform={`translate(${scale(xth)},0) `}>
-            {verticalThick}
-            <text transform={`translate(0,${tickHeight + 10})`} key={xth} style={{
-        fontSize: "10px",
-        textAnchor : "middle"
-    }} >
-        
-       {parseTime(xth)}      
-            </text>
-            
-             
-            </g>
-    )
-    
-
-    return (<g >
-        <path d={`M0 0 h ${width}`} stroke={color}>
-        </path>
-        <g className = "ticks">
-            {markers}
-            {verticalThick }
-        </g>
-    </g>)
-
-}
-
-
-function VAxis ( props )
-{
-    const height = props.height
-    const scale= props.scale
-    const tickWidth= 10
-    const color="black"
-    const nTicks=6
-    const fontSize=10
-
-    const horizontalTick = <path d={`M0 0 h${-tickWidth}`} stroke={`black`}    />
-    
-    const markers= scale.ticks(nTicks).map( 
-        yth => <g className="marker" key={yth} transform={`translate(0,${scale(yth)}) `}>
-            {horizontalTick}
-            <text transform={`translate(${ - (tickWidth + fontSize)},${fontSize/4.})`} key={yth} style={{
-        fontSize: `${fontSize}px`,
-        textAnchor : "middle"
-    }} >
-        
-       {  yth}      
-            </text>
-            
-             
-            </g>
-    )
-    
-
-    return (<g >
-        <path d={`M0 0 v ${height}`} stroke={color}>
-        </path>
-        <g className = "ticks">
-            {markers}
-            {horizontalTick }
-        </g>
-    </g>)
-
-}
 
 
 
