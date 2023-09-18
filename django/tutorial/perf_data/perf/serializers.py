@@ -1,11 +1,10 @@
 from rest_framework import serializers
 from .models import perfVar
-class perfVarSerializer(serializers.Serializer):
-    
-    perf_name = serializers.CharField(max_length=200,required=True )
-    perf_value = serializers.FloatField( required=True )
-    perf_time = serializers.CharField( max_length=200,required=True)
-    
-    def create(self,validated_data):
-        return perfVar(**validated_data)
-    
+
+
+class perfVarSerializer(serializers.ModelSerializer):
+    perf_time = serializers.DateTimeField(format=r"%d/%m/%Y",required=True,input_formats=[r"%d/%m/%Y"])
+
+    class Meta:
+        model = perfVar
+        fields=['perf_name','perf_value','perf_time']

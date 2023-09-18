@@ -43,11 +43,6 @@ function Figure( props    )
 
     const yScale= useMemo( () => d3.scaleLinear().domain(yExtent).range([display_height,0]).nice() , [yExtent] )
 
-    
-
-    
-    
-
 
     const figure = 
     <svg width={ props.width} height={props.height}  >
@@ -98,9 +93,6 @@ function Figure( props    )
     </> )
 
 }
-
-
-
 
 
 function Scatter(props)
