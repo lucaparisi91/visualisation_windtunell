@@ -13,6 +13,14 @@ function Figure( props    )
 
     const data = props.data
 
+    if ( data == null )
+    {
+        return <></>
+    }
+
+    else 
+    {
+        
     const margin = {top: 10, right: 30, bottom: 30, left: 30}
     const padding = { top : 10, right: 10, bottom: 20,left : 30 }
 
@@ -23,11 +31,11 @@ function Figure( props    )
     //const xScale = d3.scaleLinear()
     //.domain([0,1])
     //.range([ 0,box_width ]);
+    //console.log(data)
 
-
-    const originalXExtent = useMemo( ()=> d3.extent(data, (d)=> d[0]) , []  )
-    const originalYExtent = useMemo( ()=> d3.extent(data, (d)=> d[1]) , []  )
-
+    const originalXExtent = useMemo( ()=> d3.extent(data, (d)=> d[0]) , [data]  )
+    const originalYExtent = useMemo( ()=> d3.extent(data, (d)=> d[1]) , [data]  )
+    
 
     const [xExtent,setXExtent] = useState( originalXExtent )
     const [yExtent,setYExtent] = useState( originalYExtent )
@@ -91,6 +99,8 @@ function Figure( props    )
             setYExtent( originalYExtent )
             } } > Reset </button>
     </> )
+
+        }
 
 }
 

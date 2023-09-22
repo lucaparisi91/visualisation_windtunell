@@ -13,3 +13,12 @@ Then you can run the server with
  npm run dev 
  ```
 
+## Testing
+
+Testing frameworks are
+
+- Jest 
+- Enzyme
+
+`jest.fn` can bu used as a mocked function.
+The rendered objects support `.click` and other methods for firing events.

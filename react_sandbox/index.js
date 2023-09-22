@@ -1,28 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createRoot } from 'react-dom/client';
+import { PerfVis } from "./benchio/PerfVis";
 
-import { Figure } from "./benchio/benchio_react.js";
 
 //import App from "./react_app.js";
 import * as d3 from "d3";
 
 const parseTime=function( time )
 {
-  const format = d3.timeParse("%Y-%m-%d %H:%M:%S")
+  const format = d3.timeParse("%Y-%d-%m %H:%M:%S")
   return format(time)
-  
+
 }
 
 const domNode= document.getElementById("container-chart")
 const root = createRoot(domNode)
 
-const data2 = await d3.csv("benchio_unstriped_hdf5.csv")
+//const data2 = await d3.csv("benchio_unstriped_hdf5.csv")
 
 
-const data = data2.map ( d => [ parseTime(d["datetime"]),parseFloat(d["perf_value"])] )
+//const data = data2.map ( d => [ parseTime(d["datetime"]),parseFloat(d["perf_value"])] )
 
+//const response = await fetch("http://localhost:8000/perf/get",{method: "get"});
+//let data = await response.json()
+//data = data.map ( d => [ parseTime(d["perf_time"]),parseFloat(d["perf_value"]) ] )
 
+//console.log(data)
 
 //const n = 100
 
@@ -41,10 +45,9 @@ const data = data2.map ( d => [ parseTime(d["datetime"]),parseFloat(d["perf_valu
 //const chart = new perfChart( dataGrouped ,fig)
 
 
-
-root.render( <Figure width={800} height={400} data={data}  >
-    
-</Figure> )
+root.render( 
+    < PerfVis  />
+ )
 
 
 
