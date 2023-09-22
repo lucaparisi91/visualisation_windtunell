@@ -15,13 +15,15 @@ def index(request):
 
 
 def get_performance(request):
-
+    
     if request.method == "GET":
 
         from_date = request.GET.get('from',datetime.datetime.now() - datetime.timedelta(days=30))
         to_date = request.GET.get('to',datetime.datetime.now() )
         perf_data_selection=None
+       
 
+        
         if (from_date is not None or to_date is not None):
             s=perfRequestSerializer(data={"from_date":from_date , "to_date": to_date}
                                 )
@@ -29,6 +31,7 @@ def get_performance(request):
                 print (s.validated_data)
                 perf_data_selection=perfVar.objects.filter( perf_time__gte= s.validated_data["from_date"]  )
                 perf_data_selection=perf_data_selection.filter( perf_time__lte= s.validated_data["to_date"]  )
+                print(perf_data_selection.all())
 
             else:
                 return JsonResponse(s.errors,safe=False)
